@@ -21,6 +21,9 @@ extern char INSTRUMENT_ID[];              // 合约代码
 extern TThostFtdcPriceType LIMIT_PRICE;   // 价格
 extern TThostFtdcDirectionType DIRECTION; // 买卖方向
 
+extern char* a[];
+extern int count;
+
 // 请求编号
 extern int iRequestID;
 
@@ -77,6 +80,7 @@ void CMdSpi::OnRspUserLogin(CThostFtdcRspUserLoginField* pRspUserLogin, CThostFt
         if (0 == pRspInfo->ErrorID)
         {
             std::cout << "log in successfully" << std::endl;
+			SubscribeMarketData();
         }
         else
         {
@@ -100,6 +104,12 @@ void CMdSpi::OnRspUserLogin(CThostFtdcRspUserLoginField* pRspUserLogin, CThostFt
     return;
 }
 
+///订阅行情应答
+void OnRspSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
+{
+        std::cout << __FILE__ << std::endl;
+
+}
 
 void CMdSpi::ShowRspUserLoginField(const CThostFtdcRspUserLoginField* const pRspUserLogin) const
 {
@@ -120,4 +130,11 @@ void CMdSpi::ShowRspUserLoginField(const CThostFtdcRspUserLoginField* const pRsp
         std::cout << "system name: " << pRspUserLogin->SystemName << std::endl;
     }
     return;
+}
+
+void CMdSpi::SubscribeMarketData()
+{
+	int iResult = pUserApiMd->SubscribeMarketData(a, count);
+	cerr << "--->>> 发送行情订阅请求: " << ((iResult == 0) ? "成功" : "失败") << endl;
+
 }
