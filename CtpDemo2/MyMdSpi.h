@@ -1,4 +1,5 @@
 #pragma once
+#pragma pack(8)
 #include "ThostFtdcMdApi.h"
 
 
@@ -12,6 +13,11 @@ public:
 	///订阅行情应答
 	virtual void OnRspSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {};
 
+	virtual void OnRspError(CThostFtdcRspInfoField *pRspInfo,
+		int nRequestID, bool bIsLast);
+	///深度行情通知
+		virtual void OnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMarketData);
+	
 private:
     // 用户登录请求
     void ReqUserLogin();

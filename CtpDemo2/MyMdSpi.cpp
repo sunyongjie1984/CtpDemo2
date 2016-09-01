@@ -3,6 +3,9 @@
 
 #ifdef _linux
 #include <string.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
 #endif
 
 using std::cerr;
@@ -10,16 +13,12 @@ using std::endl;
 using std::cout;
 
 // USER_API参数
-extern CThostFtdcMdApi* pUserApiMd;
+extern CThostFtdcMdApi* pMdApi;
 
 // 配置参数
-extern char FRONT_ADDR[];                 // 前置地址
 extern char BROKER_ID[];                  // 经纪公司代码
 extern char INVESTOR_ID[];                // 投资者代码
 extern char PASSWORD[];                   // 用户密码
-extern char INSTRUMENT_ID[];              // 合约代码
-extern TThostFtdcPriceType LIMIT_PRICE;   // 价格
-extern TThostFtdcDirectionType DIRECTION; // 买卖方向
 
 extern char* a[];
 extern int count;
@@ -46,7 +45,7 @@ void CMdSpi::ReqUserLogin()
     strcpy(req.BrokerID, BROKER_ID);
     strcpy(req.UserID, INVESTOR_ID);
     strcpy(req.Password, PASSWORD);
-    int iResult = pUserApiMd->ReqUserLogin(&req, ++iRequestID);
+    int iResult = pMdApi->ReqUserLogin(&req, ++iRequestID);
     cerr << "--->>> 发送用户登录请求: " << ((iResult == 0) ? "成功" : "失败") << endl;
 }
 
@@ -71,11 +70,11 @@ void CMdSpi::OnRspUserLogin(CThostFtdcRspUserLoginField* pRspUserLogin, CThostFt
         iNextOrderRef++;
         sprintf(ORDER_REF_MD, "%d", iNextOrderRef);
         // 获取当前交易日
-        cerr << "--->>> 获取当前交易日 = " << pUserApiMd->GetTradingDay() << endl;
+        cerr << "--->>> 获取当前交易日 = " << pMdApi->GetTradingDay() << endl;
         // 投资者结算结果确认
         //ReqSettlementInfoConfirm();
     }
-    if (nullptr != pRspInfo)
+    if (NULL != pRspInfo)
     {
         if (0 == pRspInfo->ErrorID)
         {
@@ -88,32 +87,27 @@ void CMdSpi::OnRspUserLogin(CThostFtdcRspUserLoginField* pRspUserLogin, CThostFt
             std::cout << "Error ID = " << pRspInfo->ErrorID << std::endl;
             std::cout << "Error Msg = " << pRspInfo->ErrorMsg << std::endl;
         }
-        if (nullptr != pRspUserLogin)
-        {
-            ShowRspUserLoginField(pRspUserLogin);
-        }
-        else
-        {
-            std::cout << "Error !!! pRspUserLogin is nullptr" << std::endl;
-        }
-    }
-    else
-    {
-            std::cout << "Error !!! pRspInfo is nullptr" << std::endl;
-    }
+}
     return;
 }
 
 ///订阅行情应答
 void OnRspSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
 {
-        std::cout << __FILE__ << std::endl;
+    std::cout << __FILE__ << " " << __FUNCTION__ << std::endl;
+    cerr << "--->>> " << "订阅行情品种：" <<pSpecificInstrument->InstrumentID<< endl;
+}
 
+void CMdSpi::OnRspError(CThostFtdcRspInfoField *pRspInfo,
+		int nRequestID, bool bIsLast)
+{
+	cerr << "--->>> "<< __FUNCTION__ << endl;
+	IsErrorRspInfo(pRspInfo);
 }
 
 void CMdSpi::ShowRspUserLoginField(const CThostFtdcRspUserLoginField* const pRspUserLogin) const
 {
-    if (nullptr != pRspUserLogin)
+    if (NULL != pRspUserLogin)
     {
         std::cout << "date: " << pRspUserLogin->TradingDay << std::endl;
         std::cout << "login time: " << pRspUserLogin->LoginTime << std::endl;
@@ -134,7 +128,15 @@ void CMdSpi::ShowRspUserLoginField(const CThostFtdcRspUserLoginField* const pRsp
 
 void CMdSpi::SubscribeMarketData()
 {
-	int iResult = pUserApiMd->SubscribeMarketData(a, count);
+	sleep(2);
+	int iResult = pMdApi->SubscribeMarketData(a, count);
 	cerr << "--->>> 发送行情订阅请求: " << ((iResult == 0) ? "成功" : "失败") << endl;
 
+}
+
+void CMdSpi::OnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMarketData)
+{
+	cerr << __FUNCTION__ << endl;
+	cerr << pDepthMarketData->InstrumentID << endl;
+	cerr << pDepthMarketData->LastPrice << endl;
 }

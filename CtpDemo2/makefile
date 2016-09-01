@@ -1,10 +1,10 @@
-cflag = -g -Wall -std=c++11 -D _linux
-all: CtpDemo1
-CtpDemo1: MyTraderSpi.o main.o
-	g++ -o CtpDemo1 ${cflag} main.o MyTraderSpi.o -lthosttraderapi -L .
+cflag = -g -Wall -D _linux
+all: CtpDemo2
+CtpDemo2: MyMdSpi.o main.o
+	g++ -o CtpDemo2 ${cflag} main.o MyMdSpi.o -lthostmduserapi -L .
 main.o: main.cpp
 	g++ -c ${cflag} main.cpp
-MyTraderSpi.o: MyTraderSpi.cpp
-	g++ -c ${cflag} MyTraderSpi.cpp
+MyMdSpi.o: MyMdSpi.cpp
+	g++ -c ${cflag} MyMdSpi.cpp
 clean :
-	rm -rf *.o CtpDemo1 *.dSYM *.log *.con
+	rm -rf *.o CtpDemo2 *.dSYM *.con

@@ -1,4 +1,4 @@
 make clean
 make
 . ./env
-./CtpDemo1 2>&1 | tee a.log
+./CtpDemo2 2>&1 | tee a.log
