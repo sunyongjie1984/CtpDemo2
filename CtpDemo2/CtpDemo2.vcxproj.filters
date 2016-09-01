@@ -18,17 +18,11 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MyTraderSpi.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MyMdSpi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MyTraderSpi.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ThostFtdcMdApi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -47,6 +41,5 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="thostmduserapi.lib" />
-    <Library Include="thosttraderapi.lib" />
   </ItemGroup>
 </Project>

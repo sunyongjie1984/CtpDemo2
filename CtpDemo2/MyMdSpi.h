@@ -1,5 +1,4 @@
 #pragma once
-#pragma pack(8)
 #include "ThostFtdcMdApi.h"
 
 

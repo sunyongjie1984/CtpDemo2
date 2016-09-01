@@ -113,11 +113,9 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyMdSpi.cpp" />
-    <ClCompile Include="MyTraderSpi.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyMdSpi.h" />
-    <ClInclude Include="MyTraderSpi.h" />
     <ClInclude Include="ThostFtdcMdApi.h" />
     <ClInclude Include="ThostFtdcTraderApi.h" />
     <ClInclude Include="ThostFtdcUserApiDataType.h" />
@@ -125,7 +123,6 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="thostmduserapi.lib" />
-    <Library Include="thosttraderapi.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
