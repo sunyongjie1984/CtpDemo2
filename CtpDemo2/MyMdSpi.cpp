@@ -128,15 +128,14 @@ void CMdSpi::ShowRspUserLoginField(const CThostFtdcRspUserLoginField* const pRsp
 
 void CMdSpi::SubscribeMarketData()
 {
-	sleep(2);
-	int iResult = pMdApi->SubscribeMarketData(a, count);
-	cerr << "--->>> 发送行情订阅请求: " << ((iResult == 0) ? "成功" : "失败") << endl;
-
+    int iResult = pMdApi->SubscribeMarketData(a, count);
+    cerr << "--->>> 发送行情订阅请求: " << ((iResult == 0) ? "成功" : "失败") << endl;
 }
 
 void CMdSpi::OnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMarketData)
 {
-	cerr << __FUNCTION__ << endl;
-	cerr << pDepthMarketData->InstrumentID << endl;
-	cerr << pDepthMarketData->LastPrice << endl;
+    cerr << __FUNCTION__ << "\t" << pDepthMarketData->TradingDay <<
+        "\t" << pDepthMarketData->UpdateTime << "\t" << pDepthMarketData->InstrumentID << "\t" <<
+        pDepthMarketData->LastPrice << "\t" << pDepthMarketData->OpenPrice << "\t" << pDepthMarketData->LowestPrice << "\t" << pDepthMarketData->HighestPrice
+        << endl;
 }
