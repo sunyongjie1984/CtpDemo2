@@ -1,4 +1,5 @@
 cflag = -g -Wall -D _linux
+#cflag = -g -Wall -D _linux -Wno-write-strings
 all: CtpDemo2
 CtpDemo2: MyMdSpi.o main.o
 	g++ -o CtpDemo2 ${cflag} main.o MyMdSpi.o -lthostmduserapi -L .

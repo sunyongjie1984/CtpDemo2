@@ -9,7 +9,7 @@ TThostFtdcBrokerIDType BROKER_ID = "9999";             // 经纪公司代码
 TThostFtdcInvestorIDType INVESTOR_ID = "069637";       // 投资者代码
 TThostFtdcPasswordType PASSWORD = "sim0594184520";     // 用户密码
 
-char *a[] = { "ag1612", "rb1610", "ru1609", "TA609", "IF1609", "ni1609", "m1609", "p1609" };
+const char *a[] = { "ag1612", "rb1610", "ru1609", "TA609", "IF1609", "ni1609", "m1609", "p1609" };
 int count = 8;
 int iRequestID = 0;
 

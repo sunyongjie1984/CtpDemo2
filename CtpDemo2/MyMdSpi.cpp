@@ -20,7 +20,7 @@ extern char BROKER_ID[];                  // 经纪公司代码
 extern char INVESTOR_ID[];                // 投资者代码
 extern char PASSWORD[];                   // 用户密码
 
-extern char* a[];
+extern const char *a[];
 extern int count;
 
 // 请求编号
@@ -128,7 +128,7 @@ void CMdSpi::ShowRspUserLoginField(const CThostFtdcRspUserLoginField* const pRsp
 
 void CMdSpi::SubscribeMarketData()
 {
-    int iResult = pMdApi->SubscribeMarketData(a, count);
+    int iResult = pMdApi->SubscribeMarketData(const_cast<char**>(a), count);
     cerr << "--->>> 发送行情订阅请求: " << ((iResult == 0) ? "成功" : "失败") << endl;
 }
 
